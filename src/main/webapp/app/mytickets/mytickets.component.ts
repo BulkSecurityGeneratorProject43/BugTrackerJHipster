@@ -42,9 +42,8 @@ export class MyticketsComponent implements OnInit {
     loadSelf() {
         this.ticketService
             .query({
-                page: this.page - 1,
-                size: this.itemsPerPage,
-                sort: this.sort()
+                page: 0,
+                size: 10
             })
             .subscribe(
                 (res: HttpResponse<ITicket[]>) => this.paginateTickets(res.body, res.headers),
