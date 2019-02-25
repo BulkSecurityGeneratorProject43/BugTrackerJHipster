@@ -5,9 +5,11 @@ import com.internship.app.web.rest.errors.BadRequestAlertException;
 import com.internship.app.web.rest.util.HeaderUtil;
 import com.internship.app.web.rest.util.PaginationUtil;
 import io.github.jhipster.web.util.ResponseUtil;
+import io.swagger.annotations.ApiParam;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageImpl;
 import org.springframework.data.domain.Pageable;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
@@ -95,6 +97,26 @@ public class TicketResource {
             page = ticketRepository.findAll(pageable);
         }
         HttpHeaders headers = PaginationUtil.generatePaginationHttpHeaders(page, String.format("/api/tickets?eagerload=%b", eagerload));
+        return ResponseEntity.ok().headers(headers).body(page.getContent());
+    }
+
+    /**
+     * GET  /tickets : get all the tickets for the logged user.
+     *
+     * @param pageable the pagination information
+     * @param eagerload flag to eager load entities from relationships (This is applicable for many-to-many)
+     * @return the ResponseEntity with status 200 (OK) and the list of tickets in body
+     */
+    @GetMapping("/tickets/self")
+    public ResponseEntity<List<Ticket>> getAllSelfTickets(@ApiParam Pageable pageable, @RequestParam(required = false, defaultValue = "false") boolean eagerload){
+        log.debug("REST request to get a page of user's Tickets");
+        Page<Ticket> page;
+        if (eagerload) {
+            page = ticketRepository.findAllWithEagerRelationships(pageable);
+        } else {
+            page = new PageImpl<>(ticketRepository.findByAssignedToIsCurrentUser());
+        }
+        HttpHeaders headers = PaginationUtil.generatePaginationHttpHeaders(page, String.format("/api/tickets/self?eagerload=%b", eagerload));
         return ResponseEntity.ok().headers(headers).body(page.getContent());
     }
 
