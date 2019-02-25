@@ -41,7 +41,7 @@ export class MyticketsComponent implements OnInit {
 
     loadSelf() {
         this.ticketService
-            .query({
+            .querySelf({
                 page: 0,
                 size: 10
             })
