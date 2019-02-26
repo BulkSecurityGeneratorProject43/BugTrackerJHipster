@@ -24,7 +24,7 @@ jobs:
   # Tests
   #----------------------------------------------------------------------
   - script: npm install
-    displayName: 'INSTALL: launch npm install'
+    displayName: 'INSTALL: sudo launch npm install'
   - script: |
       chmod +x mvnw
       ./mvnw clean test
