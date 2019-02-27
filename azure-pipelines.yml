@@ -16,6 +16,7 @@ jobs:
     inputs:
       versionSpec: '10.15.0'
     displayName: 'TOOLS: install Node.js'
+    
   - script: sudo npm install -g npm
     displayName: 'TOOLS: update NPM'
   - script: sudo /etc/init.d/mysql stop
@@ -23,6 +24,8 @@ jobs:
   #----------------------------------------------------------------------
   # Tests
   #----------------------------------------------------------------------
+    - script: sudo chown -R vsts:docker /home/vsts/.npm/
+    displayName: 'BUGS-FIX: change /home/vsts/.npm/ permission'
   - script: npm install
     displayName: 'INSTALL: launch npm install'
   - script: |
