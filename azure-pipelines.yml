@@ -24,7 +24,7 @@ jobs:
   #----------------------------------------------------------------------
   # Tests
   #----------------------------------------------------------------------
-    - script: sudo chown -R vsts:docker /home/vsts/.npm/
+  - script: sudo chown -R vsts:docker /home/vsts/.npm/
     displayName: 'BUGS-FIX: change /home/vsts/.npm/ permission'
   - script: npm install
     displayName: 'INSTALL: launch npm install'
